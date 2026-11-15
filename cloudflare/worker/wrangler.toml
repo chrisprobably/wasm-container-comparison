@@ -10,7 +10,8 @@ command = "cargo install -q \"worker-build@^0.8\" && worker-build --release"
 mode = "smart"
 
 # `id` is set by deploy.sh from the Terraform output.
-# For `npm run dev`, point the binding at a local Postgres instead:
+# For `npm run dev`, point the binding at a local Postgres instead.
+# Wrangler rejects a URL without a password, even if Postgres doesn't need one:
 #   export CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_DB=postgres://user:password@localhost:5432/calendar
 [[hyperdrive]]
 binding = "DB"
