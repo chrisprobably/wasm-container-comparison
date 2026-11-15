@@ -52,7 +52,9 @@ psql calendar -f db/schema.sql
 
 cd cloudflare/worker
 npm install
-export CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_DB="postgres://$USER@localhost:5432/calendar"
+# Wrangler requires a password in the URL. A local Postgres that trusts
+# localhost connections (the Homebrew default) ignores it, so any value works.
+export CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_DB="postgres://$USER:password@localhost:5432/calendar"
 npm run dev   # http://localhost:8787
 
 # In another terminal
