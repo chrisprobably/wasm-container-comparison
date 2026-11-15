@@ -1,0 +1,30 @@
+node_modules/
+dist/
+target/
+build/
+.wrangler/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Local secrets and config
+.env*
+!.env.example
+.dev.vars
+
+# Terraform logs and local overrides
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# OS and editor files
+.DS_Store
+*.bak
+*.swp
+.idea/
+.vscode/

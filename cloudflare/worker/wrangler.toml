@@ -1,0 +1,17 @@
+name = "calendar-api-bench"
+main = "build/index.js"
+compatibility_date = "2026-10-01"
+
+[build]
+command = "cargo install -q \"worker-build@^0.8\" && worker-build --release"
+
+# Run the Worker near the database (us-east-2) instead of near the user.
+[placement]
+mode = "smart"
+
+# `id` is set by deploy.sh from the Terraform output.
+# For `npm run dev`, point the binding at a local Postgres instead:
+#   export CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_DB=postgres://user:password@localhost:5432/calendar
+[[hyperdrive]]
+binding = "DB"
+id = "REPLACE_WITH_HYPERDRIVE_ID"

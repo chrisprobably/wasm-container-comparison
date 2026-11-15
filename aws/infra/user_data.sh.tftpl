@@ -1,0 +1,21 @@
+#!/bin/bash
+# Installs Docker, pulls the API image from ECR and runs it on port 3000.
+set -euo pipefail
+
+dnf install -y docker
+systemctl enable --now docker
+
+IMAGE="${image}"
+REGISTRY="$${IMAGE%%/*}"
+DATABASE_URL=$(aws ssm get-parameter --region ${region} --name "${db_url_param}" \
+  --with-decryption --query Parameter.Value --output text)
+
+# The image may not be pushed yet on the very first deploy, so keep retrying.
+until aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin "$REGISTRY" \
+  && docker pull "$IMAGE"; do
+  echo "waiting for $IMAGE"
+  sleep 15
+done
+
+docker run -d --name api --restart always -p 3000:3000 \
+  -e DATABASE_URL="$DATABASE_URL" "$IMAGE"
